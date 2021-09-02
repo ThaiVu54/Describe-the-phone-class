@@ -1,36 +1,34 @@
 class Mobile {
-
-    constructor(_name) {
-        this.name= _name;
+    constructor(_name){
+        this.name = _name;
         this.battery = 100;
-        this.draft="";
-        this.inbox=[];
-        this.outbox=[];
-        this.status=true;
+        this.draft = "";
+        this.inbox = [];
+        this.outbox = [];
+        this.status = true;
+
     }
     checkStatus(){
         return this.status;
     }
     onOff(){
-        // dang tat -> bat
+        //dang tat -> bat
         //dang bat -> tat
         this.status = !this.status;
     }
     writting(text){
-        this.draft= text;
-        this.battery--;
+        this.draft = text;
+        this.battery-- ;
     }
-    //phone là 1 đối tượng, biến đối tượng là tham chiếu
-    //truyền đối tượng vào trong phương thức
     sendMessage(phone){
-        //this: điện thoại hiện tại
-        //phone: điện thoại gửi sang
-        //1. chuyển tin nhắn nháp của this -> hộp thư đến của phone
+        // this: dien thoai hien tai 
+        // phone: dien thoai gui sang 
+        // 1. chuyen tin nhan nhap cua this vao hop thu den cua phone
         phone.inbox.push(this.draft);
-        //2. chuyển tin nhắn nháp của this -> hộp thư đã gửi của this
-        this.outbox.push(this.draft);
-        //3. Xoá tin nhắn nháp.
-        this.draft="";
+        // 2.chuyen ti nhan nhap cua this -> hop thu gui cua this 
+        this.outbox.push(this.draft)
+        // 3. xoa tin nhan nhap 
+        this.draft = "";
         this.battery--;
     }
     getInbox(){
@@ -38,25 +36,36 @@ class Mobile {
         return this.inbox;
     }
     getOutbox(){
-        if (this.status){
+        if(this.status){
             this.battery--;
             return this.outbox;
         }
     }
 }
+let dtCuaThai = new Mobile("Thai");
+let dtCuaLanh = new Mobile("Lanh");
 
-let dtCuaTruong=new Mobile("Truong");
-let dtCuaDinh = new Mobile("Dinh");
-
-function guitinchoTruong() {
-    //buoc 1: lấy dữ liệu
+function guiTinLanh(){
+    // 1.lay du lieu 
     let mess = document.getElementById("mess1").value;
-    //gán vào thư nháp
-    dtCuaDinh.writting(mess);
-    //gửi tin cho Trường
-    dtCuaDinh.sendMessage(dtCuaTruong)
-    //hien thi hop thu den cua truong
-    let inboxTruong= dtCuaTruong.inbox.join("-");
-    document.getElementById("inbox2").innerText=inboxTruong;
+    // 2.gan vao thu nhap  
+    dtCuaThai.writting(mess)
+    // 3. gui tin nhan cho lanh 
+    dtCuaThai.sendMessage(dtCuaLanh);
+    // 4. hien thi hop thu den cu lanh 
+    let inboxLanh = dtCuaLanh.inbox.join("-");
+    document.getElementById("inbox2").innerText = inboxLanh;
+
+}
+function guiTinThai(){
+    // 1.lay du lieu 
+    let mess2 = document.getElementById("mess2").value;
+    // 2.gan vao thu nhap  
+    dtCuaLanh.writting(mess2)
+    // 3. gui tin nhan cho Thái 
+    dtCuaLanh.sendMessage(dtCuaThai);
+    // 4. hien thi hop thu den cu Thai 
+    let inboxThai = dtCuaThai.inbox.join("-");
+    document.getElementById("inbox1").innerText = inboxThai;
 
 }
